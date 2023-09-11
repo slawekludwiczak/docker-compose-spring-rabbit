@@ -10,11 +10,11 @@ class ExampleEventHandler {
     @RabbitListener(queues = "${amqp.queue.example}")
     public void subscribeToEvent(final ExampleEvent exampleEvent) {
         System.out.println(">>> Handling " + exampleEvent);
-        try {
-            Thread.sleep(10_000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        throw new ImmediateRequeueAmqpException("blah blah " + exampleEvent.id());
+//        try {
+//            Thread.sleep(10_000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        throw new ImmediateRequeueAmqpException("blah blah " + exampleEvent.id());
     }
 }
