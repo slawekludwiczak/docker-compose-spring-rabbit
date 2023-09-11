@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.4-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  samplepublisher:
+    image: sample-publisher
+    container_name: sample-publisher
+    build:
+      context: ./publisher/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+
+  samplesubscriber:
+    image: sample-subscriber
+    container_name: sample-subscriber
+    build:
+      context: ./subscriber/
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
